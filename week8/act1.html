@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .gallery {
+            display: flex;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            width: 500px;
+            padding: 5px;
+        }
+
+        .gallery img {
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+            object-fit: cover;
+        }
+
+        button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="gallery" id="gallery">
+            <button id="nextBtn">preview</button>
+            <button id="prevBtn">next</button>
+            <img src="https://th.bing.com/th/id/OIP.O4uFDQ_X6uxzV34scEsJ8gHaGj?rs=1&pid=ImgDetMain" alt="">
+            <img src="https://cdna.artstation.com/p/assets/images/images/060/787/252/large/michael-consolacion-realistic-anime-fanart-2021-39.jpg?1679330940" alt="">
+            <img src="https://i.pinimg.com/originals/d8/c5/71/d8c571e0c7023779a6ae49cad52c0417.jpg" alt="">
+            <img src="https://i.pinimg.com/originals/13/0f/96/130f96fc37c1ca352248029caa9dc8d8.jpg" alt="">
+            <img src="https://images.saymedia-content.com/.image/t_share/MTc5NjQ1ODEzMTgwNDA5ODE2/the-tragedy-of-eren-yeager-how-the-character-changes-throughout-attack-on-titan.png" alt="">
+
+            
+        </div>
+    </div>
+    <script>
+        const imageWidth = document.querySelector('gallery').offsetWidth + 16; // Including gap
+        const gallery = document.getElementById('gallery');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nxtBtn');
+
+        let currentPosition = 0;
+        function updateButtons() {
+            prevBtn.disabled = currentPosition <= 0;
+            nextBtn.disabled = currentPosition >= gallery.scrollWidth - gallery.clientWidth;
+        }
+        prevBtn.addEventListener('click', () => {
+            currentPosition -= imageWidth;
+            if (currentPosition < 0) currentPosition = 0;
+            gallery.scrollTo({
+                left: currentPosition,
+                behavior: 'smooth'
+            });
+            updateButtons();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentPosition += imageWidth;
+            if (currentPosition > gallery.scrollWidth - gallery.clientWidth) {
+                currentPosition = gallery.scrollWidth - gallery.clientWidth;
+            }
+            gallery.scrollTo({
+                left: currentPosition,
+                behavior: 'smooth'
+            });
+            updateButtons();
+        });
+
+        // Initial button state
+        updateButtons();
+        // Update buttons on window resize
+        window.addEventListener('resize', () => {
+            updateButtons();
+        });
+
+    </script>
+    
+</body>
+</html>

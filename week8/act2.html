@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+
+        }
+        .correct{
+            background-color: green;
+        }
+        .incorrect{
+            background-color: red;
+        }
+
+        
+    </style>
+</head>
+<body>
+
+
+<main>
+    <ol>
+        <li class="question">What's 1 + 1?</li>
+        <ul class="options">
+            <li><label><input type="radio" name="q1" value="a"> 1</label></li>
+            <li><label><input type="radio" name="q1" value="b"> 2</label></li>
+            <li><label><input type="radio" name="q1" value="c"> 3</label></li>
+        </ul>
+
+        <li class="question">what is the sign multiplication operator?</li>
+        <ul class="options">
+            <li><label><input type="radio" name="q2" value="a"> +</label></li>
+            <li><label><input type="radio" name="q2" value="b"> -</label></li>
+            <li><label><input type="radio" name="q2" value="c"> x</label></li>
+        </ul>
+
+        <li class="question">What is 3 x 3?</li>
+        <ul class="options">
+            <li><label><input type="radio" name="q3" value="a"> 3</label></li>
+            <li><label><input type="radio" name="q3" value="b"> 5</label></li>
+            <li><label><input type="radio" name="q3" value="c"> 9</label></li>
+        </ul>
+    </ol>
+
+    <button id="submitBtn">Submit</button>
+    <div id="score"></div>
+</main>
+
+
+<script>
+    document.getElementById('submitBtn').addEventListener('click', checkAnswers);
+
+    function checkAnswers() {
+        const correctAnswers = {
+            q1: 'a', // Paris
+            q2: 'b', // Jupiter
+            q3: 'c'  // 4
+        };
+
+        let score = 0;
+        const totalQuestions = Object.keys(correctAnswers).length;
+
+        // Reset previous styling
+        document.querySelectorAll('.options li').forEach(option => {
+            option.classList.remove('correct', 'incorrect');
+        });
+
+        // Check each question
+        for (let question in correctAnswers) {
+            const selectedAnswer = document.querySelector(`input[name="${question}"]:checked`);
+            const options = document.querySelectorAll(`input[name="${question}"]`);
+
+            if (selectedAnswer) {
+                const userAnswer = selectedAnswer.value;
+                const correctAnswer = correctAnswers[question];
+
+                options.forEach(option => {
+                    const li = option.parentElement.parentElement; // Get the <li>
+                    if (option.value === correctAnswer) {
+                        li.classList.add('correct');
+                    }
+                    if (option.checked && option.value !== correctAnswer) {
+                        li.classList.add('incorrect');
+                    }
+                });
+
+                if (userAnswer === correctAnswer) {
+                    score++;
+                }
+            }
+        }
+
+        document.getElementById('score').textContent = `Your score: ${score} / ${totalQuestions}`;
+    }
+</script>
+
+</body>
+</html>
